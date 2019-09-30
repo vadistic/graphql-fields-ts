@@ -51,7 +51,8 @@ function getSelections(ast: SelectionNode | FragmentDefinitionNode) {
 }
 
 function getDirectiveValue(directive: DirectiveNode, info: GraphQLResolveInfo) {
-  const arg = directive.arguments && directive.arguments[0] // only arg on an include or skip directive is "if"
+  // only arg on an include or skip directive is "if"
+  const arg = directive.arguments && directive.arguments[0]
 
   if (arg) {
     if (arg.value.kind !== 'Variable') {
@@ -117,15 +118,35 @@ function flattenAST(
         return flattened
       }
 
+      // no nested selectionSet means it's plain field and we can assign 1
+      const selections = getSelections(selection)
+
+      if (selections.length === 0) {
+        flattened[name] = 1
+        return flattened
+      }
+
+      // 1 means it's plain field selection and those cannot have nested fields selection
       const flattenedField = flattened[name]
 
-      // 1 means it's simple field selection and those cannot have nested fields selection
-      if (flattenedField !== 1) {
-        flattened[name] = {
-          ...flattenedField,
-          ...flattenAST(selection, info, flattenedField, options),
-        }
+      if (flattenedField === 1) {
+        flattened[name] = 1
+        return flattened
       }
+
+      const nested = flattenAST(selection, info, flattenedField, options)
+
+      // there was nested selection but it was skipped
+      if (Object.keys(nested).length === 0) {
+        return flattened
+      }
+
+      flattened[name] = {
+        ...flattenedField,
+        ...flattenAST(selection, info, flattenedField, options),
+      }
+
+      return flattened
     }
 
     if (selection.kind === 'InlineFragment') {
@@ -139,6 +160,7 @@ function flattenAST(
       return flattenAST(fragment, info, flattened, options)
     }
 
+    // noop
     return flattened
   }, obj)
 }

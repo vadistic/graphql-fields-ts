@@ -14,13 +14,19 @@
     "ast"
   ],
   "main": "dist/index.js",
+  "module": "dist/graphql-fields-ts.esm.js",
+  "types": "dist/index.d.ts",
+  "source": "src/index.ts",
   "files": [
+    "src/*",
     "dist/*"
   ],
   "scripts": {
-    "test": "mocha",
-    "build": "babel index.js --out-dir build",
-    "prepublishOnly": "npm run build"
+    "clean": "rm -rf dist",
+    "test": "tsdx test",
+    "lint": "tsdx lint .",
+    "build": "tsdx build --target node --tsconfig ./tsconfig.build.json",
+    "prepublishOnly": "yarn clena && yarn build"
   },
   "bugs": {
     "url": "https://github.com/robrichard/graphql-fields/issues"

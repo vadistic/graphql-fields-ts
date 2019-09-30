@@ -155,20 +155,20 @@ describe('graphqlFields', () => {
     const expected = {
       users: {
         pageInfo: {
-          totalResults: {},
+          totalResults: 1,
         },
         edges: {
-          cursor: {},
+          cursor: 1,
           node: {
             addressBook: {
-              apiType: {},
+              apiType: 1,
             },
             proProfile: {
-              apiType: {},
+              apiType: 1,
             },
             profile: {
-              displayName: {},
-              email: {},
+              displayName: 1,
+              email: 1,
             },
           },
         },
@@ -223,11 +223,11 @@ describe('graphqlFields', () => {
         }
       `
 
-      await graphql(schema, query, root, {}, { ['shouldInclude']: false })
+      await graphql(schema, query, root, {}, { shouldInclude: false })
 
       const expected = {
         pets: {
-          name: {},
+          name: 1,
         },
       }
 
@@ -249,11 +249,10 @@ describe('graphqlFields', () => {
         }
       `
 
-      await graphql(schema, query, root, {}, { ['shouldSkip']: true })
+      await graphql(schema, query, root, {}, { shouldSkip: true })
 
       const expected = {
-        age: {},
-        pets: {},
+        age: 1,
       }
 
       const fields = graphqlFields(info)
@@ -301,7 +300,7 @@ describe('graphqlFields', () => {
       await graphql(schema, query, root, {})
 
       const expected = {
-        name: {},
+        name: 1,
       }
 
       const fields = graphqlFields(info, {}, { excludedFields: ['__typename', 'age'] })
@@ -313,9 +312,9 @@ describe('graphqlFields', () => {
       await graphql(schema, query, root, {})
 
       const expected = {
-        name: {},
-        age: {},
-        __typename: {},
+        name: 1,
+        age: 1,
+        __typename: 1,
       }
 
       const fields = graphqlFields(info)
