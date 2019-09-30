@@ -1,9 +1,21 @@
-# graphql-fields
+# graphql-fields-ts
+
+> Fork of `graphql-fields`. Turns GraphQLResolveInfo into a map of the requested fields
+
+- Fork in typescript
+- Assign `1` on leaf (insted of empty object)
+- Modified behaviour on fields whose `selectionSet` was entirely skipped - those kays are also skipped
+- Does not support fields arguments feature
+- CJS & ESM builds (via `tsdx`)
+
+## ORIGINAL README
+
 Turns GraphQLResolveInfo into a map of the requested fields. Flattens all fragments and duplicated fields into a neat object to easily see which fields were requested at any level. Takes into account any `@include` or `@skip` directives, excluding fields/fragments which are `@include(if: $false)` or `@skip(if: $true)`.
 
 ## Usage
 
 Schema Type definition
+
 ```javascript
 const graphqlFields = require('graphql-fields');
 const graphql = require('graphql')
@@ -46,6 +58,7 @@ module.exports = new GraphQLSchema({
 ```
 
 Query
+
 ```graphql
 {
   user {
@@ -80,6 +93,7 @@ Fragment C on User {
 ```
 
 will log
+
 ```json
 {
   "profile": {
@@ -90,58 +104,36 @@ will log
   "email": {},
   "id": {}
 }
-
-```
-### subfields arguments
-
-To enable subfields arguments parsing, you'll have to provide an option object to the function. This feature is disable by default.
-```javascript
-const graphqlFields = require('graphql-fields');
-const fieldsWithSubFieldsArgs = graphqlFields(info, {}, { processArguments: true });
 ```
 
-For each subfield w/ arguments, a `__arguments` property will be created.
-It will be an array with the following format:
-```javascript
-[
-    {
-        arg1Name: {
-            kind: ARG1_KIND,
-            value: ARG1_VALUE,
-        },
-    },
-    {
-        arg2Name: {
-            kind: ARG2_KIND,
-            value: ARG2_VALUE,
-        }
-    }
-]
-```
+### Exclude specific fields
 
-The kind property is here to help differentiate value cast to strings by javascript clients, such as enum values.
-
-### Exclude specific fields 
 Most of the time we don't need `__typename` to be sent to backend/rest api, we can exclude `__typename` using this:
+
 ```javascript
-const graphqlFields = require('graphql-fields');
-const fieldsWithoutTypeName = graphqlFields(info, {}, { excludedFields: ['__typename'] });
+const graphqlFields = require('graphql-fields')
+const fieldsWithoutTypeName = graphqlFields(info, {}, { excludedFields: ['__typename'] })
 ```
+
 ## Why
+
 An underlying REST api may only return fields based on query params.
+
 ```graphql
 {
   user {
     profile {
       firstName
-    },
+    }
     id
   }
 }
 ```
+
 should request /api/user?fields=profile,id
 
 while
+
 ```graphql
 {
   user {
@@ -149,6 +141,7 @@ while
   }
 }
 ```
+
 should request /api/user?fields=email
 
 Implement your resolve method like so:
@@ -161,6 +154,7 @@ resolve(root, args, context, info) {
 ```
 
 ## Tests
+
 ```
 npm test
 ```

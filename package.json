@@ -1,7 +1,7 @@
 {
   "name": "graphql-fields-ts",
   "version": "2.0.3",
-  "description": "Fork of `graphql-fields`. Turns GraphQLResolveInfo into a map of the requested fields",
+  "description": "TypeScript fork of `graphql-fields`. Turns GraphQLResolveInfo into a map of the requested fields",
   "repository": "https://github.com/vadistic/graphql-fields-ts",
   "author": "Jakub Wadas <vadistic@gmail.com>",
   "license": "MIT",
