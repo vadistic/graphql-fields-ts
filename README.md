@@ -1,6 +1,6 @@
 # graphql-fields-ts
 
-> Fork of `graphql-fields`. Turns GraphQLResolveInfo into a map of the requested fields
+> TypeScript fork of [`robrichard/graphql-fields`](https://github.com/robrichard/graphql-fields). Turns GraphQLResolveInfo into a map of the requested fields
 
 - Fork in typescript
 - Assign `1` on leaf (insted of empty object)
