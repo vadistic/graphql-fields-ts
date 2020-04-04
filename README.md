@@ -2,6 +2,8 @@
 
 > 🍴 TypeScript fork of [`robrichard/graphql-fields`](https://github.com/robrichard/graphql-fields). Turns GraphQLResolveInfo into a map of the requested fields
 
+## Features
+
 - Fork in typescript
 - Assign `true` on leaf (insted of empty object)
 - Modified behaviour on fields whose `selectionSet` was entirely skipped - those keys are also entirely skipped
@@ -12,9 +14,8 @@
 
 Better use: https://github.com/Mikhus/graphql-fields-list
 
-````
 
-## ORIGINAL README
+# ORIGINAL README
 
 Turns GraphQLResolveInfo into a map of the requested fields. Flattens all fragments and duplicated fields into a neat object to easily see which fields were requested at any level. Takes into account any `@include` or `@skip` directives, excluding fields/fragments which are `@include(if: $false)` or `@skip(if: $true)`.
 
