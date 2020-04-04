@@ -1,12 +1,18 @@
 # graphql-fields-ts
 
-> TypeScript fork of [`robrichard/graphql-fields`](https://github.com/robrichard/graphql-fields). Turns GraphQLResolveInfo into a map of the requested fields
+> 🍴 TypeScript fork of [`robrichard/graphql-fields`](https://github.com/robrichard/graphql-fields). Turns GraphQLResolveInfo into a map of the requested fields
 
 - Fork in typescript
-- Assign `1` on leaf (insted of empty object)
-- Modified behaviour on fields whose `selectionSet` was entirely skipped - those kays are also skipped
+- Assign `true` on leaf (insted of empty object)
+- Modified behaviour on fields whose `selectionSet` was entirely skipped - those keys are also entirely skipped
 - Does not support fields arguments feature
 - CJS & ESM builds (via `tsdx`)
+
+## Update
+
+Better use: https://github.com/Mikhus/graphql-fields-list
+
+````
 
 ## ORIGINAL README
 
@@ -55,7 +61,7 @@ module.exports = new GraphQLSchema({
             })
     })
 })
-```
+````
 
 Query
 
@@ -146,7 +152,7 @@ should request /api/user?fields=email
 
 Implement your resolve method like so:
 
-```
+```sh
 resolve(root, args, context, info) {
     const topLevelFields = Object.keys(graphqlFields(info));
     return fetch(`/api/user?fields=${topLevelFields.join(',')}`);
@@ -155,6 +161,6 @@ resolve(root, args, context, info) {
 
 ## Tests
 
-```
+```sh
 npm test
 ```

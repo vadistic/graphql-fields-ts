@@ -7,11 +7,9 @@ export interface GraphqlFieldsOptions {
   excludedFields?: string[]
 }
 
-/**
- * Parsed fields with mongoDB relations convention
- */
+/** Parsed fields with mongoDB relations convention */
 export interface FieldsObject {
-  [field: string]: 1 | FieldsObject
+  [field: string]: true | FieldsObject
 }
 
 export const defaultGraphqlFieldsOptions: Required<GraphqlFieldsOptions> = {
@@ -122,15 +120,15 @@ function flattenAST(
       const selections = getSelections(selection)
 
       if (selections.length === 0) {
-        flattened[name] = 1
+        flattened[name] = true
         return flattened
       }
 
-      // 1 means it's plain field selection and those cannot have nested fields selection
+      // true means it's plain field selection and those cannot have nested fields selection
       const flattenedField = flattened[name]
 
-      if (flattenedField === 1) {
-        flattened[name] = 1
+      if (flattenedField === true) {
+        flattened[name] = true
         return flattened
       }
 

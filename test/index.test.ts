@@ -155,20 +155,20 @@ describe('graphqlFields', () => {
     const expected = {
       users: {
         pageInfo: {
-          totalResults: 1,
+          totalResults: true,
         },
         edges: {
-          cursor: 1,
+          cursor: true,
           node: {
             addressBook: {
-              apiType: 1,
+              apiType: true,
             },
             proProfile: {
-              apiType: 1,
+              apiType: true,
             },
             profile: {
-              displayName: 1,
-              email: 1,
+              displayName: true,
+              email: true,
             },
           },
         },
@@ -227,7 +227,7 @@ describe('graphqlFields', () => {
 
       const expected = {
         pets: {
-          name: 1,
+          name: true,
         },
       }
 
@@ -252,7 +252,7 @@ describe('graphqlFields', () => {
       await graphql(schema, query, root, {}, { shouldSkip: true })
 
       const expected = {
-        age: 1,
+        age: true,
       }
 
       const fields = graphqlFields(info)
@@ -300,7 +300,7 @@ describe('graphqlFields', () => {
       await graphql(schema, query, root, {})
 
       const expected = {
-        name: 1,
+        name: true,
       }
 
       const fields = graphqlFields(info, {}, { excludedFields: ['__typename', 'age'] })
@@ -312,9 +312,9 @@ describe('graphqlFields', () => {
       await graphql(schema, query, root, {})
 
       const expected = {
-        name: 1,
-        age: 1,
-        __typename: 1,
+        name: true,
+        age: true,
+        __typename: true,
       }
 
       const fields = graphqlFields(info)
